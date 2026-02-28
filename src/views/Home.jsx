@@ -1,106 +1,120 @@
-import { Footer, MisionVision, NavBar, PropuestaValor, QuienesSomos, GlobalBackground } from "../components"
-import { useRef } from "react"
+import { Footer, MisionVision, NavBar, PropuestaValor, QuienesSomos } from "../components"
+import { useRef, useEffect, useState } from "react"
 
 function Home() {
     const infoRef = useRef(null)
+    const [displayedText, setDisplayedText] = useState('')
+    const [showContent, setShowContent] = useState(false)
+    const fullText = 'Confianza y Liquidez sin Fronteras.'
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setShowContent(true)
+            let i = 0
+            const interval = setInterval(() => {
+                setDisplayedText(fullText.slice(0, i + 1))
+                i++
+                if (i >= fullText.length) clearInterval(interval)
+            }, 50)
+            return () => clearInterval(interval)
+        }, 800)
+        return () => clearTimeout(timeout)
+    }, [])
 
     const scrollToInfo = () => {
         infoRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
 
+    const beforeGreen = displayedText.slice(0,
+        displayedText.indexOf('sin Fronteras.') === -1
+            ? displayedText.length
+            : displayedText.indexOf('sin Fronteras.')
+    )
+    const greenPart = displayedText.indexOf('sin Fronteras.') !== -1
+        ? displayedText.slice(displayedText.indexOf('sin Fronteras.'))
+        : ''
+
     return (
-        <div className="relative min-h-screen" style={{ background: '#0a0f1e' }}>
+        <div className="relative">
 
-            {/* ── Fondo animado global ── */}
-            <GlobalBackground />
-
-            {/* ── Gradiente radial decorativo ── */}
-            <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-                <div style={{
-                    position: 'absolute', top: '-10%', left: '-10%',
-                    width: '50%', height: '40%',
-                    background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)',
-                    borderRadius: '50%'
-                }} />
-                <div style={{
-                    position: 'absolute', bottom: '10%', right: '-5%',
-                    width: '40%', height: '40%',
-                    background: 'radial-gradient(circle, rgba(183,230,32,0.05) 0%, transparent 70%)',
-                    borderRadius: '50%'
-                }} />
+            {/* ── Fondo fijo global: fondo.avif ── */}
+            <div className="fixed inset-0" style={{ zIndex: 0 }}>
+                <img
+                    src="/fondo.avif"
+                    alt=""
+                    className="w-full h-full object-cover"
+                />
+                {/* Overlay oscuro suave para legibilidad */}
+                <div className="absolute inset-0" style={{ background: 'rgba(10,15,30,0.6)' }} />
             </div>
 
-            {/* ── Contenido ── */}
+            {/* ── Todo el contenido encima del fondo ── */}
             <div className="relative" style={{ zIndex: 1 }}>
                 <NavBar />
 
-                {/* ── Hero ── */}
-                <section className="relative w-full h-screen flex items-center px-4 sm:px-8 md:px-16 overflow-hidden">
-                    <div className="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center gap-10">
+                {/* ── SECCIÓN 1: Hero pantalla completa ── */}
+                <section className="relative w-full h-screen overflow-hidden">
+                    <div className="relative z-10 flex items-center justify-center h-full px-4 sm:px-8">
 
-                        {/* Texto */}
+                        {/* logo.avif con estrella y texto centrados encima */}
                         <div
-                            className="flex-1 flex flex-col items-center md:items-start gap-6 text-center md:text-left"
-                            style={{ animation: 'fadeInLeft 1s ease forwards', opacity: 0 }}
+                            className="relative w-full max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl"
+                            style={{ animation: 'fadeInUp 1s ease forwards', opacity: 0 }}
                         >
-                            <div className="flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 animate-pulse" fill="currentColor" viewBox="0 0 24 24" style={{ color: '#b7e620' }}>
+                            {/* Imagen logo */}
+                            <img
+                                src="/logo.avif"
+                                alt="Logo"
+                                className="w-full rounded-2xl object-cover"
+                                style={{ maxHeight: '660px', objectPosition: 'center' }}
+                            />
+
+                            {/* Overlay sobre la imagen */}
+                            <div className="absolute inset-0 rounded-2xl"
+                                style={{ background: 'rgba(10,15,30,0.45)' }} />
+
+                            {/* Estrella + texto centrados */}
+                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-4 rounded-2xl">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                    className="drop-shadow-xl"
+                                    style={{
+                                        color: 'white',
+                                        width: 'clamp(28px, 5vw, 48px)',
+                                        height: 'clamp(28px, 5vw, 48px)',
+                                        animation: 'starPop 0.6s ease forwards',
+                                        opacity: 0
+                                    }}
+                                >
                                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                                 </svg>
-                                <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: '#b7e620' }}>
-                                    CRYPTO EXCHANGE
-                                </span>
-                            </div>
 
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white">
-                                Confianza y Liquidez <br />
-                                <span style={{ color: '#b7e620' }}>sin Fronteras.</span>
-                            </h1>
-
-                            <p className="text-sm sm:text-base max-w-md" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                                Tu plataforma de confianza para gestionar y mover tu dinero de forma rápida, segura y sin límites.
-                            </p>
-
-                            <div className="flex items-center gap-4 mt-2">
-                                <button className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-6 py-3 rounded-full shadow transition-all duration-200 hover:scale-105">
-                                    Comenzar ahora
-                                </button>
-
-                                <div className="relative cursor-pointer group">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} style={{ color: 'rgba(255,255,255,0.3)' }}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                    </svg>
-                                    <span className="absolute -top-1.5 -right-1.5 bg-blue-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow">
-                                        0
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Imagen */}
-                        <div
-                            className="flex-1 w-full max-w-sm sm:max-w-md md:max-w-lg"
-                            style={{ animation: 'fadeInRight 1s ease forwards', opacity: 0 }}
-                        >
-                            <div className="relative rounded-2xl overflow-hidden shadow-2xl"
-                                style={{ boxShadow: '0 0 40px rgba(59,130,246,0.15)' }}>
-                                <img
-                                    src="/logo.avif"
-                                    alt="Confianza y Liquidez"
-                                    className="w-full h-64 sm:h-80 md:h-96 object-contain"
-                                    style={{ background: 'rgba(255,255,255,0.03)' }}
-                                />
-                                <div className="absolute inset-0 rounded-2xl pointer-events-none"
-                                    style={{ boxShadow: 'inset 0 0 0 1px rgba(59,130,246,0.2)' }} />
+                                <h1
+                                    className="font-bold text-white text-center leading-tight drop-shadow-xl"
+                                    style={{
+                                        fontSize: 'clamp(14px, 3vw, 32px)',
+                                        minHeight: '2em',
+                                        animation: 'fadeIn 0.5s 0.4s ease forwards',
+                                        opacity: 0
+                                    }}
+                                >
+                                    {beforeGreen}
+                                    <span style={{ color: '#b7e620' }}>{greenPart}</span>
+                                    {showContent && displayedText.length < fullText.length && (
+                                        <span className="animate-pulse" style={{ color: '#b7e620' }}>|</span>
+                                    )}
+                                </h1>
                             </div>
                         </div>
                     </div>
 
-                    {/* Flecha */}
+                    {/* Flecha scroll */}
                     <button
                         onClick={scrollToInfo}
-                        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 transition-colors duration-200"
-                        style={{ color: 'rgba(255,255,255,0.3)', animation: 'fadeInUp 1.5s ease forwards', opacity: 0 }}
+                        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
+                        style={{ color: 'rgba(255,255,255,0.4)', animation: 'fadeInUp 2s ease forwards', opacity: 0 }}
                     >
                         <span className="text-xs tracking-widest uppercase">Ver más</span>
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -109,28 +123,50 @@ function Home() {
                     </button>
                 </section>
 
-                {/* ── Secciones ── */}
-                <div ref={infoRef}>
-                    <QuienesSomos />
-                    <MisionVision />
-                    <PropuestaValor />
-                </div>
+                {/* ── SECCIÓN 2: billete.avif + cuadro blanco ── */}
+                <section ref={infoRef} className="relative w-full overflow-hidden" style={{ minHeight: '360px' }}>
+                    <img src="/billete.avif" alt="billete" className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0" style={{ background: 'rgba(10,15,30,0.5)' }} />
 
+                    <div className="relative z-10 flex items-center justify-center py-16 px-4">
+                        <div
+                            className="flex flex-col items-center gap-4 px-8 sm:px-10 py-8 sm:py-10 rounded-3xl text-center"
+                            style={{ background: 'white', maxWidth: '420px', width: '100%', boxShadow: '0 8px 48px rgba(0,0,0,0.4)' }}
+                        >
+                            <div className="w-10 h-1 rounded-full" style={{ background: '#b7e620' }} />
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest uppercase text-gray-900">
+                                Crypto <span style={{ color: '#b7e620' }}>Exchange</span>
+                            </h2>
+                            <div className="w-full h-px" style={{ background: 'rgba(0,0,0,0.08)' }} />
+                            <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 leading-snug">
+                                Confianza y Liquidez <br />
+                                <span className="font-black" style={{ color: '#b7e620' }}>sin Fronteras.</span>
+                            </p>
+                            <div className="w-10 h-1 rounded-full" style={{ background: '#b7e620' }} />
+                        </div>
+                    </div>
+                </section>
+
+                {/* ── SECCIONES RESTANTES ── */}
+                <QuienesSomos />
+                <MisionVision />
+                <PropuestaValor />
                 <Footer />
             </div>
 
             <style>{`
-                @keyframes fadeInLeft {
-                    from { opacity: 0; transform: translateX(-28px); }
-                    to   { opacity: 1; transform: translateX(0); }
-                }
-                @keyframes fadeInRight {
-                    from { opacity: 0; transform: translateX(28px); }
-                    to   { opacity: 1; transform: translateX(0); }
-                }
                 @keyframes fadeInUp {
-                    from { opacity: 0; transform: translateY(16px) translateX(-50%); }
-                    to   { opacity: 1; transform: translateY(0) translateX(-50%); }
+                    from { opacity: 0; transform: translateY(20px); }
+                    to   { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes starPop {
+                    0%   { opacity: 0; transform: scale(0.4); }
+                    70%  { transform: scale(1.15); }
+                    100% { opacity: 1; transform: scale(1); }
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to   { opacity: 1; }
                 }
             `}</style>
         </div>
