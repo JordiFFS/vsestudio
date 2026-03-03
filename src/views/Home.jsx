@@ -75,7 +75,7 @@ function Home() {
 
                             {/* Estrella + texto centrados */}
                             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-4 rounded-2xl">
-                                <svg
+                                {/* <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
@@ -89,7 +89,7 @@ function Home() {
                                     }}
                                 >
                                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                </svg>
+                                </svg> */}
 
                                 <h1
                                     className="font-bold text-white text-center leading-tight drop-shadow-xl"
@@ -124,25 +124,53 @@ function Home() {
                 </section>
 
                 {/* ── SECCIÓN 2: billete.avif + cuadro blanco ── */}
-                <section ref={infoRef} className="relative w-full overflow-hidden" style={{ minHeight: '360px' }}>
+                <section ref={infoRef} className="relative w-full overflow-hidden" style={{ minHeight: '480px' }}>
                     <img src="/billete.avif" alt="billete" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0" style={{ background: 'rgba(10,15,30,0.5)' }} />
 
-                    <div className="relative z-10 flex items-center justify-center py-16 px-4">
+                    <div className="relative z-10 flex items-center justify-center py-20 px-4">
                         <div
-                            className="flex flex-col items-center gap-4 px-8 sm:px-10 py-8 sm:py-10 rounded-3xl text-center"
-                            style={{ background: 'white', maxWidth: '420px', width: '100%', boxShadow: '0 8px 48px rgba(0,0,0,0.4)' }}
+                            className="flex flex-col items-center gap-6 rounded-3xl text-center"
+                            style={{
+                                background: 'rgba(255,255,255,0.80)',
+                                backdropFilter: 'blur(12px)',
+                                maxWidth: '620px',
+                                width: '100%',
+                                padding: 'clamp(2rem, 5vw, 4rem)',
+                                boxShadow: '0 8px 48px rgba(0,0,0,0.4)'
+                            }}
                         >
-                            <div className="w-10 h-1 rounded-full" style={{ background: '#b7e620' }} />
-                            <h2 className="text-xl sm:text-2xl md:text-3xl font-black tracking-widest uppercase text-gray-900">
+                            {/* Línea top */}
+                            <div className="w-14 h-1.5 rounded-full" style={{ background: '#b7e620' }} />
+
+                            {/* Título */}
+                            <h2 style={{
+                                fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+                                fontWeight: 900,
+                                letterSpacing: '0.08em',
+                                textTransform: 'uppercase',
+                                color: '#111827',
+                                lineHeight: 1.1
+                            }}>
                                 Crypto <span style={{ color: '#b7e620' }}>Exchange</span>
                             </h2>
+
+                            {/* Divisor */}
                             <div className="w-full h-px" style={{ background: 'rgba(0,0,0,0.08)' }} />
-                            <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 leading-snug">
+
+                            {/* Slogan */}
+                            <p style={{
+                                fontSize: 'clamp(1.1rem, 3.5vw, 1.75rem)',
+                                fontWeight: 600,
+                                color: '#1f2937',
+                                lineHeight: 1.4
+                            }}>
                                 Confianza y Liquidez <br />
-                                <span className="font-black" style={{ color: '#b7e620' }}>sin Fronteras.</span>
+                                <span style={{ fontWeight: 900, color: '#b7e620' }}>sin Fronteras.</span>
                             </p>
-                            <div className="w-10 h-1 rounded-full" style={{ background: '#b7e620' }} />
+
+                            {/* Línea bottom */}
+                            <div className="w-14 h-1.5 rounded-full" style={{ background: '#b7e620' }} />
                         </div>
                     </div>
                 </section>
