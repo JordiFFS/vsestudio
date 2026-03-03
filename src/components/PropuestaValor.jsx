@@ -1,59 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
 import { useAnimateOnScroll } from '../hooks/useAnimateOnScroll'
 import { useTypewriter } from '../hooks/useTypewriter'
 
 export const PropuestaValor = () => {
-    const [activeTab, setActiveTab] = useState(0)
-    const [paused, setPaused] = useState(false)
-    const [progress, setProgress] = useState(0)
-    const intervalRef = useRef(null)
-    const progressRef = useRef(null)
     const { ref, visible } = useAnimateOnScroll()
     const title = useTypewriter('Nuestra Propuesta de Valor', visible, 40)
-
-    const DURATION = 4000
-
-    useEffect(() => {
-        if (paused) return
-        setProgress(0)
-        const start = Date.now()
-
-        progressRef.current = setInterval(() => {
-            const elapsed = Date.now() - start
-            setProgress(Math.min((elapsed / DURATION) * 100, 100))
-        }, 30)
-
-        intervalRef.current = setTimeout(() => {
-            setActiveTab(prev => (prev + 1) % 3)
-        }, DURATION)
-
-        return () => {
-            clearTimeout(intervalRef.current)
-            clearInterval(progressRef.current)
-        }
-    }, [activeTab, paused])
-
-    const handleTabClick = (i) => {
-        setActiveTab(i)
-        setPaused(true)
-        setProgress(0)
-    }
-
-    const handleResume = () => {
-        setPaused(false)
-        setProgress(0)
-    }
-
-    const tabs = [
-        { label: 'Proceso Institucional', bg: 'white' },
-        { label: 'Ventajas', bg: '#0a0f1e' },
-        { label: 'Para Influencers', bg: 'rgba(255,255,255,0.12)' },
-    ]
-
-    const textPrimary = activeTab === 0 ? '#111827' : 'white'
-    const textSecondary = activeTab === 0 ? '#6b7280' : 'rgba(255,255,255,0.55)'
-    const accentColor = '#b7e620'
-    const borderColor = activeTab === 0 ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.1)'
 
     const proceso = [
         { num: '01', text: 'Validación privada del cliente (KYC discreto).' },
@@ -65,215 +15,275 @@ export const PropuestaValor = () => {
     ]
 
     const ventajas = [
-        { icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>, title: 'Liquidez inmediata', desc: 'Para montos medianos y altos sin demoras.' },
-        { icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>, title: 'Operaciones privadas', desc: 'Estricta confidencialidad en cada transacción.' },
-        { icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, title: 'Bloqueo de tasa en tiempo real', desc: 'El precio acordado se congela al instante.' },
-        { icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>, title: 'Atención personalizada', desc: 'Trato directo con un operador dedicado a ti.' },
-        { icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064" /></svg>, title: 'Soporte estratégico regional', desc: 'Acompañamiento en movimientos de alto impacto en Latinoamérica.' },
+        { icon: '⚡', title: 'Liquidez inmediata', desc: 'Para montos medianos y altos sin demoras.' },
+        { icon: '🔒', title: 'Operaciones privadas', desc: 'Estricta confidencialidad en cada transacción.' },
+        { icon: '⏱️', title: 'Bloqueo de tasa', desc: 'El precio acordado se congela al instante.' },
+        { icon: '👤', title: 'Atención personalizada', desc: 'Trato directo con un operador dedicado.' },
+        { icon: '🌎', title: 'Soporte regional', desc: 'Acompañamiento en movimientos de alto impacto en LATAM.' },
     ]
 
     const influencers = [
         { emoji: '🔒', title: 'Privacidad total', desc: 'Tus operaciones jamás son expuestas públicamente.' },
-        { emoji: '⚡', title: 'Velocidad de ejecución', desc: 'Liquidamos en minutos, no en días.' },
+        { emoji: '⚡', title: 'Velocidad', desc: 'Liquidamos en minutos, no en días.' },
         { emoji: '💬', title: 'Asesoría directa', desc: 'Canal exclusivo con tu operador asignado.' },
-        { emoji: '📊', title: 'Grandes volúmenes', desc: 'Capacidad para manejar montos significativos sin fricciones.' },
-        { emoji: '🌎', title: 'Alcance regional', desc: 'Operamos en toda Latinoamérica con liquidez garantizada.' },
-        { emoji: '🤝', title: 'Confianza probada', desc: 'Relación a largo plazo basada en resultados y discreción.' },
+        { emoji: '📊', title: 'Grandes volúmenes', desc: 'Sin fricciones para montos significativos.' },
+        { emoji: '🤝', title: 'Confianza probada', desc: 'Relación a largo plazo basada en resultados.' },
+    ]
+
+    const handleMouseMove = (e, card) => {
+        const rect = card.getBoundingClientRect()
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
+        const cx = rect.width / 2
+        const cy = rect.height / 2
+        const rotX = ((y - cy) / cy) * -8
+        const rotY = ((x - cx) / cx) * 8
+        card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`
+        const spotlight = card.querySelector('.card-spotlight')
+        if (spotlight) {
+            spotlight.style.opacity = '1'
+            spotlight.style.background = `radial-gradient(300px circle at ${x}px ${y}px, rgba(183,230,32,0.18), transparent 70%)`
+        }
+    }
+
+    const handleMouseLeave = (card) => {
+        card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)'
+        const spotlight = card.querySelector('.card-spotlight')
+        if (spotlight) spotlight.style.opacity = '0'
+    }
+
+    const cards = [
+        {
+            id: 'proceso',
+            label: 'Proceso Institucional',
+            animClass: 'card-glass',
+            labelColor: '#b7e620',
+            content: (
+                <div className="flex flex-col gap-3 mt-4">
+                    {proceso.map((step, i) => (
+                        <div key={i} className="flex items-start gap-3">
+                            <div className="flex flex-col items-center shrink-0 pt-0.5">
+                                <div className="w-7 h-7 rounded-full flex items-center justify-center"
+                                    style={{ background: 'rgba(183,230,32,0.15)', border: '1px solid rgba(183,230,32,0.35)' }}>
+                                    <span className="text-xs font-bold" style={{ color: '#b7e620' }}>{step.num}</span>
+                                </div>
+                                {i < proceso.length - 1 && (
+                                    <div className="w-px h-4 mt-1" style={{ background: 'rgba(183,230,32,0.2)' }} />
+                                )}
+                            </div>
+                            <p className="text-sm leading-relaxed pt-0.5" style={{ color: 'rgba(255,255,255,0.65)' }}>{step.text}</p>
+                        </div>
+                    ))}
+                </div>
+            )
+        },
+        {
+            id: 'ventajas',
+            label: 'Ventajas',
+            animClass: 'card-dark',
+            labelColor: '#b7e620',
+            content: (
+                <div className="flex flex-col gap-3 mt-4">
+                    {ventajas.map((v, i) => (
+                        <div key={i} className="flex items-start gap-3 rounded-xl p-3"
+                            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                            <span className="text-xl">{v.icon}</span>
+                            <div>
+                                <p className="font-semibold text-sm text-white">{v.title}</p>
+                                <p className="text-xs mt-0.5 leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{v.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )
+        },
+        {
+            id: 'influencers',
+            label: 'Para Influencers',
+            animClass: 'card-green',
+            labelColor: 'rgba(10,15,30,0.5)',
+            content: (
+                <div className="flex flex-col gap-3 mt-4">
+                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(10,15,30,0.7)' }}>
+                        Servicio diseñado para quienes mueven grandes volúmenes y necesitan máxima discreción.
+                    </p>
+                    {influencers.map((item, i) => (
+                        <div key={i} className="flex items-start gap-3 rounded-xl p-3"
+                            style={{ background: 'rgba(10,15,30,0.08)', border: '1px solid rgba(10,15,30,0.12)' }}>
+                            <span className="text-lg">{item.emoji}</span>
+                            <div>
+                                <p className="font-semibold text-sm" style={{ color: '#0a0f1e' }}>{item.title}</p>
+                                <p className="text-xs mt-0.5 leading-relaxed" style={{ color: 'rgba(10,15,30,0.6)' }}>{item.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )
+        },
     ]
 
     return (
         <section className="w-full py-20 px-4 sm:px-8 md:px-16" style={{ background: 'transparent' }}>
-            <div ref={ref} className="max-w-5xl mx-auto">
-                <div
-                    className="rounded-3xl overflow-hidden"
+            <div ref={ref} className="max-w-6xl mx-auto">
+
+                {/* Header */}
+                <div className="text-center mb-12"
                     style={{
-                        background: tabs[activeTab].bg,
-                        backdropFilter: 'blur(20px)',
-                        boxShadow: activeTab === 0
-                            ? '0 8px 48px rgba(0,0,0,0.2)'
-                            : activeTab === 1
-                                ? '0 8px 48px rgba(0,0,0,0.5)'
-                                : '0 8px 48px rgba(0,0,0,0.3)',
-                        transform: visible ? 'translateY(0)' : 'translateY(40px)',
+                        transform: visible ? 'translateY(0)' : 'translateY(30px)',
                         opacity: visible ? 1 : 0,
-                        transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1), background 0.7s ease, box-shadow 0.7s ease',
-                    }}
-                >
-                    {/* ── Header ── */}
-                    <div className="text-center px-8 pt-12 pb-8"
-                        style={{ borderBottom: `1px solid ${borderColor}` }}>
-                        <span className="text-xs font-semibold uppercase tracking-widest"
-                            style={{ color: accentColor }}>
-                            Todo en un solo lugar
-                        </span>
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2"
+                        transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1)',
+                    }}>
+                    <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#b7e620' }}>
+                        Todo en un solo lugar
+                    </span>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2 text-white" style={{ minHeight: '2.5rem' }}>
+                        {title}
+                        {visible && title.length < 26 && (
+                            <span className="animate-pulse" style={{ color: '#b7e620' }}>|</span>
+                        )}
+                    </h2>
+                    <div className="w-12 h-1 rounded-full mx-auto mt-4" style={{ background: '#b7e620' }} />
+                </div>
+
+                {/* Dos arriba, uno abajo centrado */}
+                <div className="flex flex-col gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {cards.slice(0, 2).map((card, i) => (
+                            <div
+                                key={card.id}
+                                className={`rounded-3xl p-6 card-hover ${card.animClass}`}
+                                style={{
+                                    transform: visible ? 'translateY(0)' : 'translateY(50px)',
+                                    opacity: visible ? 1 : 0,
+                                    transition: `all 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 0.15}s`,
+                                    position: 'relative',
+                                    overflow: 'hidden',
+                                }}
+                                onMouseMove={e => handleMouseMove(e, e.currentTarget)}
+                                onMouseLeave={e => handleMouseLeave(e.currentTarget)}
+                            >
+                                <div className="card-spotlight" />
+                                <span className="text-xs font-bold uppercase tracking-widest relative"
+                                    style={{ zIndex: 1, color: card.labelColor }}>
+                                    {card.label}
+                                </span>
+                                <div style={{ position: 'relative', zIndex: 1 }}>{card.content}</div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Card inferior centrada */}
+                    <div className="flex justify-center">
+                        <div
+                            className={`rounded-3xl p-6 card-hover ${cards[2].animClass}`}
                             style={{
-                                color: textPrimary,
-                                minHeight: '2.5rem',
-                                transition: 'color 0.5s ease'
-                            }}>
-                            {title}
-                            {visible && title.length < 26 && (
-                                <span className="animate-pulse" style={{ color: accentColor }}>|</span>
-                            )}
-                        </h2>
-                        <div className="w-12 h-1 rounded-full mx-auto mt-4"
-                            style={{ background: accentColor }} />
-                    </div>
-
-                    {/* ── Tabs ── */}
-                    <div className="px-8 py-6"
-                        style={{ borderBottom: `1px solid ${borderColor}` }}>
-                        <div className="flex flex-col sm:flex-row items-stretch gap-3">
-                            {tabs.map((tab, i) => (
-                                <button
-                                    key={tab.label}
-                                    onClick={() => handleTabClick(i)}
-                                    className="relative flex-1 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 overflow-hidden text-center"
-                                    style={activeTab === i
-                                        ? {
-                                            background: activeTab === 0 ? '#b7e620' : 'rgba(183,230,32,0.15)',
-                                            color: activeTab === 0 ? '#0a0f1e' : '#b7e620',
-                                            border: '1px solid rgba(183,230,32,0.5)',
-                                            boxShadow: '0 4px 16px rgba(183,230,32,0.2)'
-                                        }
-                                        : {
-                                            background: 'transparent',
-                                            color: textSecondary,
-                                            border: `1px solid ${borderColor}`
-                                        }
-                                    }
-                                >
-                                    {tab.label}
-                                    {activeTab === i && !paused && (
-                                        <div
-                                            className="absolute bottom-0 left-0 h-0.5 rounded-full"
-                                            style={{
-                                                width: `${progress}%`,
-                                                background: '#b7e620',
-                                                transition: 'width 0.03s linear'
-                                            }}
-                                        />
-                                    )}
-                                </button>
-                            ))}
-
-                            {paused && (
-                                <button
-                                    onClick={handleResume}
-                                    className="px-4 py-3 rounded-2xl text-xs font-semibold transition-all duration-200"
-                                    style={{
-                                        color: accentColor,
-                                        border: `1px solid ${borderColor}`,
-                                        background: 'transparent'
-                                    }}
-                                >
-                                    ▶ Auto
-                                </button>
-                            )}
+                                width: '100%',
+                                maxWidth: '600px',
+                                transform: visible ? 'translateY(0)' : 'translateY(50px)',
+                                opacity: visible ? 1 : 0,
+                                transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s',
+                                position: 'relative',
+                                overflow: 'hidden',
+                            }}
+                            onMouseMove={e => handleMouseMove(e, e.currentTarget)}
+                            onMouseLeave={e => handleMouseLeave(e.currentTarget)}
+                        >
+                            <div className="card-spotlight" />
+                            <span className="text-xs font-bold uppercase tracking-widest relative"
+                                style={{ zIndex: 1, color: cards[2].labelColor }}>
+                                {cards[2].label}
+                            </span>
+                            <div style={{ position: 'relative', zIndex: 1 }}>{cards[2].content}</div>
                         </div>
-                    </div>
-
-                    {/* ── Contenido ── */}
-                    <div className="p-8 sm:p-10">
-
-                        {/* Tab 0: Proceso — blanco */}
-                        {activeTab === 0 && (
-                            <div style={{ animation: 'fadeIn .5s ease forwards' }}>
-                                <div className="flex flex-col gap-2">
-                                    {proceso.map((step, i) => (
-                                        <div key={i} className="flex items-start gap-4">
-                                            <div className="flex flex-col items-center shrink-0 pt-1">
-                                                <div
-                                                    className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-default"
-                                                    style={{ background: 'rgba(183,230,32,0.12)', border: '1px solid rgba(183,230,32,0.3)' }}
-                                                    onMouseEnter={e => e.currentTarget.style.background = '#b7e620'}
-                                                    onMouseLeave={e => e.currentTarget.style.background = 'rgba(183,230,32,0.12)'}
-                                                >
-                                                    <span className="text-xs font-bold" style={{ color: '#7aad00' }}>{step.num}</span>
-                                                </div>
-                                                {i < proceso.length - 1 && (
-                                                    <div className="w-px h-6 mt-1" style={{ background: 'rgba(183,230,32,0.2)' }} />
-                                                )}
-                                            </div>
-                                            <p className="text-sm sm:text-base pt-1 pb-3 text-gray-600">{step.text}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Tab 1: Ventajas — negro */}
-                        {activeTab === 1 && (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-                                style={{ animation: 'fadeIn .5s ease forwards' }}>
-                                {ventajas.map((v, i) => (
-                                    <div
-                                        key={i}
-                                        className="rounded-2xl p-5 flex items-start gap-4 transition-all duration-200 cursor-default"
-                                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-                                        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(183,230,32,0.1)'; e.currentTarget.style.border = '1px solid rgba(183,230,32,0.3)' }}
-                                        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.border = '1px solid rgba(255,255,255,0.1)' }}
-                                    >
-                                        <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                                            style={{ background: 'rgba(183,230,32,0.1)', color: '#b7e620' }}>
-                                            {v.icon}
-                                        </div>
-                                        <div>
-                                            <p className="font-semibold text-sm text-white">{v.title}</p>
-                                            <p className="text-xs mt-1 leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>{v.desc}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {/* Tab 2: Influencers — glass */}
-                        {activeTab === 2 && (
-                            <div style={{ animation: 'fadeIn .5s ease forwards' }}>
-                                <div
-                                    className="rounded-2xl p-8 mb-6 text-center"
-                                    style={{ background: 'rgba(183,230,32,0.08)', border: '1px solid rgba(183,230,32,0.2)' }}
-                                >
-                                    <span className="text-xs uppercase tracking-widest font-semibold"
-                                        style={{ color: '#b7e620' }}>
-                                        Diseñado para ti
-                                    </span>
-                                    <h3 className="text-xl sm:text-2xl font-bold mt-2 text-white">
-                                        Soluciones exclusivas para Influencers
-                                    </h3>
-                                    <p className="text-sm max-w-lg mx-auto leading-relaxed mt-3"
-                                        style={{ color: 'rgba(255,255,255,0.5)' }}>
-                                        Sabemos que tu tiempo y reputación valen. Por eso ofrecemos un servicio diseñado
-                                        para quienes mueven grandes volúmenes y necesitan máxima discreción.
-                                    </p>
-                                </div>
-
-                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                                    {influencers.map((item, i) => (
-                                        <div
-                                            key={i}
-                                            className="rounded-2xl p-5 flex flex-col gap-2 transition-all duration-200 cursor-default"
-                                            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
-                                            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(183,230,32,0.1)'; e.currentTarget.style.border = '1px solid rgba(183,230,32,0.3)' }}
-                                            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.border = '1px solid rgba(255,255,255,0.1)' }}
-                                        >
-                                            <span className="text-2xl">{item.emoji}</span>
-                                            <p className="font-semibold text-sm text-white">{item.title}</p>
-                                            <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>{item.desc}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
 
             <style>{`
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(12px); }
-                    to   { opacity: 1; transform: translateY(0); }
+                .card-spotlight {
+                    position: absolute;
+                    inset: 0;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                    pointer-events: none;
+                    z-index: 0;
+                    border-radius: inherit;
+                }
+
+                .card-hover {
+                    transition: transform 0.15s ease, box-shadow 0.3s ease !important;
+                    cursor: default;
+                    will-change: transform;
+                }
+
+                /* Card glass */
+                .card-glass {
+                    background: rgba(255,255,255,0.07);
+                    border: 1px solid rgba(255,255,255,0.12);
+                    backdrop-filter: blur(20px);
+                    animation: shimmerGlass 8s ease infinite;
+                }
+                .card-glass:hover {
+                    border-color: rgba(183,230,32,0.4);
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(183,230,32,0.2);
+                }
+                @keyframes shimmerGlass {
+                    0%   { background-color: rgba(255,255,255,0.07); }
+                    50%  { background-color: rgba(255,255,255,0.11); }
+                    100% { background-color: rgba(255,255,255,0.07); }
+                }
+
+                /* Card dark */
+                .card-dark {
+                    background: #0a0f1e;
+                    border: 1px solid rgba(255,255,255,0.1);
+                    animation: pulseDark 8s ease infinite;
+                }
+                .card-dark:hover {
+                    border-color: rgba(183,230,32,0.4);
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(183,230,32,0.08);
+                }
+                @keyframes pulseDark {
+                    0%   { box-shadow: 0 0 0px rgba(183,230,32,0);     border-color: rgba(255,255,255,0.10); }
+                    50%  { box-shadow: 0 0 28px rgba(183,230,32,0.12); border-color: rgba(183,230,32,0.3);  }
+                    100% { box-shadow: 0 0 0px rgba(183,230,32,0);     border-color: rgba(255,255,255,0.10); }
+                }
+
+                /* Card green */
+                .card-green {
+                    background: linear-gradient(135deg, #b7e620, #c8f030, #9fd010, #b7e620);
+                    background-size: 400% 400%;
+                    border: 1px solid rgba(183,230,32,0.6);
+                    animation: flowGreen 6s ease infinite;
+                }
+                .card-green:hover {
+                    box-shadow: 0 20px 60px rgba(183,230,32,0.3), 0 0 80px rgba(183,230,32,0.15);
+                }
+                .card-green .card-spotlight {
+                    background: radial-gradient(300px circle, rgba(255,255,255,0.25), transparent 70%) !important;
+                }
+                @keyframes flowGreen {
+                    0%   { background-position: 0% 50%;   }
+                    50%  { background-position: 100% 50%; }
+                    100% { background-position: 0% 50%;   }
+                }
+
+                /* Mobile — sin hover, más dinamismo en animaciones */
+                @media (hover: none) {
+                    .card-glass, .card-dark, .card-green {
+                        animation-duration: 4s;
+                    }
+                    .card-dark {
+                        animation: pulseDarkMobile 3s ease infinite;
+                    }
+                    @keyframes pulseDarkMobile {
+                        0%   { box-shadow: 0 0 0px rgba(183,230,32,0);    }
+                        50%  { box-shadow: 0 0 20px rgba(183,230,32,0.2); }
+                        100% { box-shadow: 0 0 0px rgba(183,230,32,0);    }
+                    }
+                    .card-green {
+                        animation: flowGreen 3s ease infinite;
+                    }
                 }
             `}</style>
         </section>
