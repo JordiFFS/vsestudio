@@ -26,9 +26,9 @@ export const QuienesSomos = () => {
                         <div className="flex-1 flex flex-col justify-center gap-6 p-8 sm:p-10 md:p-14">
 
                             {/* Etiqueta */}
-                            <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#b7e620' }}>
+                            {/* <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#b7e620' }}>
                                 Nuestra Historia
-                            </span>
+                            </span> */}
 
                             {/* Título typewriter */}
                             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-gray-900"
