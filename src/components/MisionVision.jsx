@@ -41,9 +41,9 @@ export const MisionVision = () => {
                     {/* ── Header ── */}
                     <div className="text-center px-8 pt-12 pb-8"
                         style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                        <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#b7e620' }}>
+                        {/* <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#b7e620' }}>
                             Nuestra Esencia
-                        </span>
+                        </span> */}
                         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mt-2"
                             style={{ minHeight: '2.5rem' }}>
                             {title}

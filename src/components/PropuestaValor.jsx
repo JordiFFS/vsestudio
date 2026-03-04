@@ -133,9 +133,9 @@ export const PropuestaValor = () => {
                         opacity: visible ? 1 : 0,
                         transition: 'all 0.8s cubic-bezier(0.16,1,0.3,1)',
                     }}>
-                    <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#b7e620' }}>
-                        Todo en un solo lugar
-                    </span>
+                    {/* <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#b7e620' }}> */}
+                        {/* Todo en un solo lugar */}
+                    {/* </span> */}
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2 text-white" style={{ minHeight: '2.5rem' }}>
                         {title}
                         {visible && title.length < 26 && (
